@@ -1,4 +1,4 @@
-# Expert-City-Authors
+# Expert City Authors
 
 Custom plugin for Expert City Network.
 
