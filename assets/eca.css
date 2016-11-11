@@ -1,0 +1,477 @@
+/* Notice bars - "eca-notice" class, plus one of: eca-info, eca-warning, eca-error, eca-success */
+.eca-notice {
+	margin: 2em 1.5em;
+	padding-left: 45px;
+	position: relative;
+}
+
+.eca-notice:before {
+	content: '\!';
+
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 0;
+	z-index: 2;
+
+	display: block;
+	width: 24px;
+	height: 24px;
+	line-height: 24px;
+
+	margin-left: 1px;
+	margin-top: 1px;
+
+	color: #fff;
+	font-size: 22px;
+	font-weight: bold;
+	font-family: Arial, sans-serif;
+	text-align: center;
+}
+
+.eca-notice:after {
+	content: '';
+
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 0;
+	z-index: 1;
+
+	display: block;
+	width: 24px;
+	height: 24px;
+	line-height: 24px;
+
+	border-radius: 100%;
+}
+
+.eca-notice.eca-info:after {
+	background: #2088da;
+}
+
+.eca-notice.eca-warning:after {
+	background: #dabb04;
+}
+
+.eca-notice.eca-error:before {
+	content: '\00d7';
+}
+.eca-notice.eca-error:after {
+	background: #da3520;
+}
+
+.eca-notice.eca-success:before {
+	content: '\2714';
+	font-size: 16px;
+	margin-left: 0;
+}
+.eca-notice.eca-success:after {
+	background: #38da20;
+}
+
+/* Hide screen reader text on the front-end */
+.screen-reader-text {
+	position: absolute;
+	top: -10000px;
+}
+
+/* Logo Widget */
+.eca-widget-logo a {
+	display: block;
+}
+
+.eca-widget-logo img {
+	max-width: 100%;
+	height: auto;
+	width: auto;
+	display: block;
+}
+
+/* Info widget */
+.eca-info-item:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+.eca-info-item .icon {
+	float: left;
+	padding: 5px;
+	width: 40px;
+	text-align: center;
+	position: relative;
+	top: 3px;
+}
+
+.eca-info-item .eca-info-text {
+	margin-left: 50px;
+	overflow: hidden;
+	line-height: 20px;
+}
+
+.eca-info-item {
+	padding: 10px 0;
+}
+
+.eca-info-content a {
+	color: #3072b7;
+}
+
+/* Improve the "Add Tag" button */
+.acf-taxonomy-field {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+.acf-taxonomy-field.acf-soh .acf-soh-target {
+	position: relative;
+	visibility: visible;
+	opacity: 1;
+	order: 2;
+	left: 0;
+	top: 0;
+	margin: 5px 0 0;
+	width: 130px;
+	border-radius: 0;
+	border: 1px solid;
+	padding: 5px 4px;
+	height: auto;
+}
+.acf-taxonomy-field.acf-soh .acf-soh-target:after {
+	content: 'Add Keyword';
+}
+
+.acf-taxonomy-field .select2-container {
+	order: 1;
+}
+
+/* Directory archive layout */
+.eca-directory-inner {
+	margin: 20px -10px 0;
+}
+
+.eca-directory-inner:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+.eca-directory-item {
+	width: 50%;
+	padding: 20px 10px;
+	float: left;
+}
+
+.eca-directory-item:nth-child(2n+1) {
+	clear: left;
+}
+
+.eca-directory-item .photo-area {
+	position: relative;
+	padding-top: 100%;
+}
+
+.eca-directory-item .profile-area {
+	text-align: center;
+	color: #fff;
+}
+
+.eca-directory-item .photo-area a {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+	text-align: center;
+}
+
+.eca-directory-item .photo-area a img {
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.eca-directory-item h3 {
+	margin: 0 0 10px;
+}
+
+/* Button Links, optional two column */
+.eca-author-buttons-container:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+.eca-author-buttons-container.eca-two-buttons .eca-button-item {
+	display: block;
+	float: left;
+	width: 50%;
+}
+
+.eca-author-buttons-container.eca-two-buttons .eca-button-item:first-child {
+	padding-right: 1px;
+}
+
+.eca-author-buttons-container .eca-button-item a {
+	display: block;
+	text-align: center;
+}
+
+.widget .eca-button-item a, /* herald override */
+.eca-button-item a {
+	padding: 15px 5px;
+	background: #0288d1;
+	color: #fff;
+}
+
+.widget .eca-button-item a:hover, /* herald override */
+.eca-button-item a:hover {
+	padding: 15px 5px;
+	background: #0078b9;
+	color: #fff;
+}
+
+/* Author buttons on the directory page */
+.eca-directory-item .eca-author-buttons-container.eca-two-buttons .eca-button-item:first-child {
+	padding-right: 5px;
+}
+
+.eca-directory-item .eca-author-buttons-container.eca-two-buttons .eca-button-item:last-child {
+	padding-left: 5px;
+}
+
+.entry-content .eca-directory-item .eca-button-item a, /* herald override */
+.eca-directory-item .eca-button-item a {
+	padding: 5px;
+	font-size: 14px;
+	background: transparent;
+	color: #0288d1;
+	border: 1px solid #0288d1;
+	transition: background 0.2s, color 0.2s;
+}
+
+.entry-content .eca-directory-item .eca-button-item a:hover, /* herald override */
+.eca-directory-item .eca-button-item a:hover {
+	padding: 5px;
+	background: #0288d1;
+	color: #fff;
+	border: 1px solid #0288d1;
+}
+
+/* Directory archive meta */
+.eca-directory-item .eca-author-buttons-container {
+	margin-top: 10px;
+}
+
+.eca-directory-item .profile-meta {
+	margin: 0 0 5px;
+}
+
+/* Directory Archive: Responsive */
+@media ( min-width: 768px ) {
+	.eca-directory-item .directory-column {
+		float: left;
+		width: 50%;
+	}
+
+	.eca-directory-item:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+
+	.eca-directory-item .profile-area {
+		margin-left: 10px;
+	}
+}
+
+@media ( max-width: 767px ) {
+	.eca-directory-item {
+		width: auto;
+		float: none;
+	}
+}
+
+/* eca Directory archive animations */
+.eca-directory-item h3 a {
+	position: relative;
+	display: block;
+	transition: color 0.5s, background 0.5s;
+	background: #fff;
+}
+
+.eca-directory-item h3 a:hover {
+	color: #fff;
+	background: #0288d1;
+}
+
+/* Profile meta hover effects */
+.profile-meta a {
+	color: #444;
+	transition: color 0.3s;
+}
+.profile-meta .profile-icon {
+	color: #ccc;
+	line-height: 24px;
+	transition: color 0.3s;
+}
+.profile-meta:hover a,
+.profile-meta:hover .profile-icon {
+	color: #0288d1;
+}
+
+/* Expert category effect */
+.profile-category-label {
+	color: #888;
+	font-size: 12px;
+	line-height: 12px;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.profile-category {
+	font-weight: bold;
+	font-size: 16px;
+	margin: 0 0 5px;
+	position: relative;
+}
+
+.profile-category a {
+	color: #444;
+}
+
+.profile-category a:hover {
+	color: #222;
+}
+
+.profile-category .dashicons {
+	position: absolute;
+	top: 50%;
+	left: 100%;
+	color: #444;
+	transform: translateY(-50%) translateX(-20px);
+	opacity: 0;
+	transition: transform 0.2s, opacity 0.2s;
+}
+
+.profile-category a:hover + .dashicons {
+	transform: translateY(-50%) translateX(-10px);
+	opacity: 1;
+}
+
+
+/* eca pagination */
+.eca-menu-list-wrapper {
+	text-align: center;
+	margin: 15px 0;
+	cursor: default;
+}
+
+.eca-menu-list,
+.eca-menu-list li {
+	display: inline;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.eca-menu-list li a,
+.eca-menu-list li span {
+	display: inline-block;
+	transition: all 0.1s ease;
+}
+
+.entry-content div .eca-menu-list li span,
+.entry-content div .eca-menu-list li a,
+.entry-content div .eca-menu-list li a:hover {
+	padding: 3px 10px;
+	margin: 0 -3px;
+}
+
+.eca-menu-list li span {
+	opacity: 0.25;
+}
+
+.eca-menu-list li a {
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.eca-menu-list li a:hover {
+	background: #0288d1;
+	color: #fff;
+	transition: all 0.1s ease;
+}
+
+.eca-menu-list li.current-menu-item a {
+	background: #333333;
+	color: #fff;
+	cursor: default;
+}
+
+li.eca-letter.letter-reset {
+	margin-left: 10px;
+}
+
+/* Lightbox */
+#eca-cf7-author-email {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 100000;
+}
+
+.eca-lightbox-underlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 100010;
+	background: rgba(0,0,0,0.25);
+}
+
+.eca-lightbox-main {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 100020;
+	background: #fff;
+	width: 640px;
+	height: auto;
+	transform: translateX(-50%) translateY(-50%);
+	padding: 30px 40px 20px;
+
+	max-height: 95vh;
+	max-width: 95vw;
+	overflow: auto;
+}
+
+a.eca-lightbox-close {
+	display: block;
+	float: right;
+	margin: -30px -40px 0 0;
+	width: 40px;
+	height: 40px;
+	font-size: 28px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 40px;
+}
+
+.eca-lightbox-content h2 {
+	font-size: 26px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #eee;
+}
+
+.acf-form-submit {
+	padding: 15px 12px;
+}

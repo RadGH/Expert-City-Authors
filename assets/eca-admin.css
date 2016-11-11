@@ -1,0 +1,68 @@
+
+/* Hide preview/view buttons from stock photo page. They don't work anyway. Also hide shareaholic since that won't apply either. */
+body.post-php.post-type-stock_photo #edit-slug-box,
+body.post-php.post-type-stock_photo #minor-publishing-actions,
+body.post-php.post-type-stock_photo #shareaholic {
+	display: none;
+}
+
+/* Hide a bunch of unused social networks */
+tr.user-apple-wrap,
+tr.user-behance-wrap,
+tr.user-delicious-wrap,
+tr.user-deviantart-wrap,
+tr.user-digg-wrap,
+tr.user-dribbble-wrap,
+tr.user-flickr-wrap,
+tr.user-github-wrap,
+tr.user-pinterest-wrap,
+tr.user-reddit-wrap,
+tr.user-rss-wrap,
+tr.user-skype-wrap,
+tr.user-stumbleupon-wrap,
+tr.user-soundcloud-wrap,
+tr.user-spotify-wrap,
+tr.user-tumblr-wrap,
+tr.user-vimeo-square-wrap,
+tr.user-vine-wrap,
+tr.user-wordpress-wrap,
+tr.user-xing-wrap,
+tr.user-yahoo-wrap,
+tr.user-youtube-wrap {
+	display: none;
+}
+
+/*
+Keep these social networks:
+tr.user-facebook-wrap,
+tr.user-google-wrap,
+tr.user-instagram-wrap,
+tr.user-linkedin-wrap,
+tr.user-twitter-wrap,
+*/
+
+tr.acf-field.acf-field-57da0cf10f6f6 {
+	background: #2673b8;
+}
+
+
+/* Make the Expert City Author's category field blue, and indicate it is admin-only. */
+.form-table > tbody > tr.acf-field.acf-field-57da0cf10f6f6 > .acf-label label {
+	color: #fff;
+	padding-left: 10px;
+}
+
+.form-table > tbody > tr.acf-field.acf-field-57da0cf10f6f6 > .acf-label label:after {
+	content: ' (Admin-Only)';
+}
+
+
+/* Max width on preview column for stock photos */
+td.stock_photo.column-stock_photo a {
+	display: block;
+}
+td.stock_photo.column-stock_photo a img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}

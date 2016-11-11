@@ -1,0 +1,266 @@
+[
+  {
+	"key": "group_57d8c89f71b05",
+	"title": "Configuration",
+	"fields": [
+	  {
+		"key": "field_57facb3a54599",
+		"label": "Submit Article",
+		"name": "",
+		"type": "tab",
+		"instructions": "",
+		"required": 0,
+		"conditional_logic": 0,
+		"wrapper": {
+		  "width": "",
+		  "class": "",
+		  "id": ""
+		},
+		"placement": "top",
+		"endpoint": 0
+	  },
+	  {
+		"key": "field_57d8c8ebd3259",
+		"label": "Author Submissions",
+		"name": "eca_enable_author_submissions",
+		"type": "true_false",
+		"instructions": "",
+		"required": 0,
+		"conditional_logic": 0,
+		"wrapper": {
+		  "width": "",
+		  "class": "",
+		  "id": ""
+		},
+		"message": "Allow authors to submit new articles",
+		"default_value": 0
+	  },
+	  {
+		"key": "field_57d8d1d8c6857",
+		"label": "Author Roles",
+		"name": "eca_author_roles",
+		"type": "select",
+		"instructions": "If a user does not have one of these selected roles, they will not be able to post articles.",
+		"required": 0,
+		"conditional_logic": [
+		  [
+			{
+			  "field": "field_57d8c8ebd3259",
+			  "operator": "==",
+			  "value": "1"
+			}
+		  ]
+		],
+		"wrapper": {
+		  "width": "",
+		  "class": "",
+		  "id": ""
+		},
+		"choices": {
+		  "subscriber": "Subscriber",
+		  "contributor": "Contributor",
+		  "author": "Author",
+		  "editor": "Editor",
+		  "administrator": "Administrator"
+		},
+		"default_value": [
+
+		],
+		"allow_null": 0,
+		"multiple": 1,
+		"ui": 0,
+		"ajax": 0,
+		"placeholder": "",
+		"disabled": 0,
+		"readonly": 0
+	  },
+	  {
+		"key": "field_57fac67637ace",
+		"label": "Submit Article Page",
+		"name": "eca_submit_article_page",
+		"type": "post_object",
+		"instructions": "This page allows authors to submit new articles. You can manually place the shortcode <code class=\"code\">[eca_submit_article]<\/code>, or it will be added to the end.",
+		"required": 0,
+		"conditional_logic": 0,
+		"wrapper": {
+		  "width": "",
+		  "class": "",
+		  "id": ""
+		},
+		"post_type": [
+		  "page"
+		],
+		"taxonomy": [
+
+		],
+		"allow_null": 0,
+		"multiple": 0,
+		"return_format": "object",
+		"ui": 1
+	  },
+	  {
+		"key": "field_57facb3054598",
+		"label": "Experts Directory",
+		"name": "",
+		"type": "tab",
+		"instructions": "",
+		"required": 0,
+		"conditional_logic": 0,
+		"wrapper": {
+		  "width": "",
+		  "class": "",
+		  "id": ""
+		},
+		"placement": "top",
+		"endpoint": 0
+	  },
+	  {
+		"key": "field_580041bcb25ad",
+		"label": "\"Expert Category\" Label",
+		"name": "eca_expert_category_label",
+		"type": "text",
+		"instructions": "Customize the \"Expert Category\" label that appears on the directory.",
+		"required": 0,
+		"conditional_logic": 0,
+		"wrapper": {
+		  "width": "",
+		  "class": "",
+		  "id": ""
+		},
+		"default_value": "",
+		"placeholder": "",
+		"prepend": "",
+		"append": "",
+		"maxlength": "",
+		"readonly": 0,
+		"disabled": 0
+	  },
+	  {
+		"key": "field_57fde0e4bc712",
+		"label": "Email Form",
+		"name": "eca_contact_form",
+		"type": "post_object",
+		"instructions": "Choose a Contact Form 7 email form. That form is used for the \"Send Email\" button for the expert. This also keeps the expert's email hidden.",
+		"required": 0,
+		"conditional_logic": 0,
+		"wrapper": {
+		  "width": "",
+		  "class": "",
+		  "id": ""
+		},
+		"post_type": [
+		  "wpcf7_contact_form"
+		],
+		"taxonomy": [
+
+		],
+		"allow_null": 0,
+		"multiple": 0,
+		"return_format": "object",
+		"ui": 1
+	  },
+	  {
+		"key": "field_57fac4a69fd5f",
+		"label": "Directory Page",
+		"name": "eca_directory_page",
+		"type": "post_object",
+		"instructions": "This page displays the experts directory. You can manually place the shortcode <code class=\"code\">[eca_directory]<\/code> and <code class=\"code\">[eca_directory_pagination]<\/code>. If not included, these will be added to the end of the page automatically.",
+		"required": 0,
+		"conditional_logic": 0,
+		"wrapper": {
+		  "width": "",
+		  "class": "",
+		  "id": ""
+		},
+		"post_type": [
+		  "page"
+		],
+		"taxonomy": [
+
+		],
+		"allow_null": 0,
+		"multiple": 0,
+		"return_format": "object",
+		"ui": 1
+	  },
+	  {
+		"key": "field_57facd2e01da3",
+		"label": "Users per page",
+		"name": "eca_users_per_page",
+		"type": "number",
+		"instructions": "",
+		"required": 0,
+		"conditional_logic": 0,
+		"wrapper": {
+		  "width": "",
+		  "class": "",
+		  "id": ""
+		},
+		"default_value": "",
+		"placeholder": "Default: Posts per page setting",
+		"prepend": "",
+		"append": "",
+		"min": "",
+		"max": "",
+		"step": 1,
+		"readonly": 0,
+		"disabled": 0
+	  },
+	  {
+		"key": "field_57facab654597",
+		"label": "Included Roles",
+		"name": "eca_directory_roles",
+		"type": "textarea",
+		"instructions": "Enter role names who should appear in the directory. If empty, any user role will appear.",
+		"required": 0,
+		"conditional_logic": 0,
+		"wrapper": {
+		  "width": "",
+		  "class": "",
+		  "id": ""
+		},
+		"default_value": "",
+		"placeholder": "",
+		"maxlength": "",
+		"rows": 4,
+		"new_lines": "",
+		"readonly": 0,
+		"disabled": 0
+	  },
+	  {
+		"key": "field_57facb715459a",
+		"label": "Excluded Users",
+		"name": "eca_excluded_users",
+		"type": "user",
+		"instructions": "",
+		"required": 0,
+		"conditional_logic": 0,
+		"wrapper": {
+		  "width": "",
+		  "class": "",
+		  "id": ""
+		},
+		"role": "",
+		"allow_null": 1,
+		"multiple": 1
+	  }
+	],
+	"location": [
+	  [
+		{
+		  "param": "options_page",
+		  "operator": "==",
+		  "value": "acf-options-expert-city-authors"
+		}
+	  ]
+	],
+	"menu_order": 0,
+	"position": "acf_after_title",
+	"style": "default",
+	"label_placement": "left",
+	"instruction_placement": "field",
+	"hide_on_screen": "",
+	"active": 1,
+	"description": ""
+  }
+]
