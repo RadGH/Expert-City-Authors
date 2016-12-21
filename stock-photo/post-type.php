@@ -382,26 +382,26 @@ function eca_save_stock_photo_as_featured_image( $post_id ) {
 
 	$thumbnail_id = false;
 
-	$photo_type = get_field('eca_featured_photo_type', $post_id);
+	$photo_type = get_post_meta( $post_id, 'eca_featured_photo_type', true );
 	if ( !$photo_type ) $photo_type = get_post_meta( $post_id, 'eca_featured_photo_type', true );
 
-	$stock_photo_id = get_field('eca_featured_photo', $post_id, false);
+	$stock_photo_id = get_post_meta( $post_id, 'eca_featured_photo', true);
 	if ( !$stock_photo_id ) $stock_photo_id = get_post_meta( $post_id, 'eca_featured_photo', true );
 
 
 	if ( $photo_type == "Upload my own image" ) {
-		if ( $p = get_field( 'eca_featured_photo_custom', $post_id, false ) ) {
+		if ( $p = get_post_meta( $post_id, 'eca_featured_photo_custom', true ) ) {
 			$thumbnail_id = $p;
 		}
 	}else{
 		// Stock photo returns the stock photo ID. The attachment ID is the "image" field of the stock photo.
 		if ( $stock_photo_id ) {
-			$thumbnail_id = get_field( 'image', $stock_photo_id, false );
+			$thumbnail_id = get_post_meta( $post_id, 'image', true );
 
 			// Unhook the stock photo image so it is a regular media item, then trash the stock photo item.
 			wp_trash_post( $stock_photo_id );
 			delete_post_meta( $thumbnail_id, 'is_stock_photo' );
-		}
+		} 
 	}
 
 	// Set the post's featured image as the selected image

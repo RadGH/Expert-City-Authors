@@ -73,6 +73,7 @@ function eca_save_submitted_article_with_scheduled_date( $post_id ) {
 	if ( $date_timestamp > time() ) {
 		$args = array(
 			'edit_date' => true,
+			'post_status' => 'pending',
 			'post_date' => date( 'Y-m-d H:i:s', $date_timestamp ),
 			'post_date_gmt' => date( 'Y-m-d H:i:s', $date_timestamp ),
 		);
@@ -85,6 +86,7 @@ function eca_save_submitted_article_with_scheduled_date( $post_id ) {
 			// Insert a new post
 			$post_id = wp_insert_post( $args );
 		}
+
 	}
 
 	return $post_id;
