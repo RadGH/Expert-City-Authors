@@ -65,9 +65,7 @@ function eca_submit_article_shortcode( $atts, $content = '' ) {
 			<p><strong>Success!</strong> Your article has been submitted.</p>
 
 			<?php if ( $preview_post ) { ?>
-				<p><a href="<?php echo esc_attr($preview_post); ?>">Preview your article</a> or <a href="<?php echo esc_attr($all_posts); ?>">view your posts</a>.</p>
-			<?php }else{ ?>
-				<p><a href="<?php echo esc_attr($all_posts); ?>">View your posts</a>.</p>
+				<p><a href="<?php echo esc_attr($preview_post); ?>">Preview your article</a></p>
 			<?php } ?>
 		</div>
 
