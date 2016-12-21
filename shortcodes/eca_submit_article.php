@@ -62,11 +62,9 @@ function eca_submit_article_shortcode( $atts, $content = '' ) {
 
 		?>
 		<div class="eca-article-submitted eca-notice eca-success">
-			<p><strong>Success!</strong> Your article has been submitted.</p>
+			<p><strong>Success!</strong> Your article has been submitted. <?php if ( $preview_post ) { ?><a href="<?php echo esc_attr($preview_post); ?>">Preview your article</a>.<?php } ?></p>
 
-			<?php if ( $preview_post ) { ?>
-				<p><a href="<?php echo esc_attr($preview_post); ?>">Preview your article</a></p>
-			<?php } ?>
+
 		</div>
 
 		<p><a href="<?php echo esc_attr(get_permalink()); ?>" class="button">Write another article</a></p>
