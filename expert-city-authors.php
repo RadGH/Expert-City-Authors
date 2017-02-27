@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Expert City Authors
-Version:     1.5.2
+Version:     1.6.0
 Plugin URI:  http://radgh.com/
 Description: Simplify the way authors submit content for your website. Assign each author to their own category, and use the shortcode <code>[eca_submit_article]</code> to let authors submit articles.
 Author:      Radley Sustaire &lt;radley@radgh.com&gt;
@@ -13,7 +13,7 @@ if( !defined( 'ABSPATH' ) ) exit;
 
 define( 'ECA_URL', untrailingslashit(plugin_dir_url( __FILE__ )) );
 define( 'ECA_PATH', dirname(__FILE__) );
-define( 'ECA_VERSION', '1.5.2' );
+define( 'ECA_VERSION', '1.6.0' );
 
 function eca_init_plugin() {
 	if ( !class_exists( 'acf' ) ) {
@@ -46,7 +46,7 @@ function eca_init_plugin() {
 	include_once( ECA_PATH . '/field-groups/author-category.php' );
 	include_once( ECA_PATH . '/field-groups/author-information.php' );
 	include_once( ECA_PATH . '/field-groups/stock-photo.php' );
-	// include_once( ECA_PATH . '/field-groups/submit-an-article.php' );
+	include_once( ECA_PATH . '/field-groups/submit-an-article.php' );
 	
 	// Stock Photos
 	include_once( ECA_PATH . '/stock-photo/post-type.php' );
