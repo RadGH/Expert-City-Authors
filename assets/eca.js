@@ -2,7 +2,154 @@ jQuery(function() {
 	eca_email_link_to_contact_form_lightbox();
 
 	eca_rearrange_submit_article_fields();
+
+	eca_init_seo_and_google();
 });
+
+function eca_init_seo_and_google() {
+	var $seo_title = jQuery('#acf-field_58ad19d298374');
+	var $post_title = jQuery('#acf-_post_title');
+
+	var $post_slug = jQuery('#acf-field_58ad1dc498376');
+
+	var $focus_keyword = jQuery('#acf-field_58ad1dd998377');
+
+	var wysiwyg_id = acf.fields.wysiwyg.get_mceInit().id;
+
+	var $seo_desc = jQuery('#acf-field_58ad1db898375');
+	var $post_desc_textarea = jQuery('#'+ wysiwyg_id);
+	var $post_desc_wrap = jQuery('#wp-'+ wysiwyg_id +'-wrap');
+
+	var $google_search_preview = jQuery('.acf-field.acf-field-58ad1dfe98379');
+	var $googlePlacementTarget = jQuery('div.acf-field.acf-field-58ad1dfe98379 .acf-input');
+	var $googleTitle = jQuery('<span>', {class: 'eca-google-title'});
+	var $googleURL = jQuery('<span>', {class: 'eca-google-url'});
+	var $googleDescription = jQuery('<div>', {class: 'eca-google-description'});
+
+	var $submit_article_form = jQuery('#post.acf-form');
+
+	$googlePlacementTarget.html("").append(
+		jQuery('<div>', {class: 'eca-google-wrap'}).append(
+			jQuery('<div>', {class: 'eca-google-title-wrap'}).append(
+				$googleTitle
+			),
+			jQuery('<div>', {class: 'eca-google-url-wrap'}).append(
+				$googleURL,
+				jQuery('<span>', {class: 'eca-google-url-arrow'})
+			),
+			$googleDescription
+		)
+	);
+
+	var refreshGooglePreview = function() {
+		var get_focus_keyword = function() {
+			return $focus_keyword.val();
+		};
+
+		var get_post_title = function() {
+			return $post_title.val();
+		};
+
+		var get_seo_title = function() {
+			return $seo_title.val();
+		};
+
+		var get_post_content = function() {
+			if ( wysiwyg_id && $post_desc_wrap.hasClass('.tmce-active') ) {
+				return tinyMCE.get( wysiwyg_id ).getContent(); // Get content from visual editor
+			}else{
+				return $post_desc_textarea.val(); // Get content from text editor
+			}
+		};
+
+		var get_seo_description = function() {
+			return $seo_desc.val();
+		};
+
+		var get_slug = function() {
+			var slug = $post_slug.val();
+
+			// Fall back to get slug from title
+			if ( !slug ) {
+				slug = get_post_title() || get_seo_title();
+			}
+
+			// Clean up the slug
+			if ( slug ) {
+				return slug.toLowerCase().replace(/[^a-zA-Z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+			}
+
+			return false;
+		};
+
+		var escape_regexp = function(str) {
+			return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+		};
+
+		var highlight_focus_keywords = function( string, keyword, counter_object, counter_key ) {
+			if ( !keyword ) return string;
+			if ( !string ) return false;
+
+			keyword = escape_regexp(keyword);
+
+			// Allow any non alphanumeric to be anything else. Eg, spaces for hyphens.
+			keyword = keyword.replace(/[^a-zA-Z0-9]/g, '.');
+
+			var pattern = new RegExp("\\b(" + keyword + ")\\b", "gi");
+
+			if ( typeof counter_object != 'undefined' ) {
+				counter_object[counter_key] = string.match( pattern ).length;
+			}
+
+			return string.replace( pattern, "<span class=\"eca-google-focus-keyword\" title=\"Your focus keyword\">$1</span>" );
+		};
+
+		var focus_keyword = get_focus_keyword();
+
+		var google_title = get_seo_title() || get_post_title();
+		var google_description = get_seo_description() || get_post_content();
+		var google_url = get_slug() ? window.location.protocol + '//' + window.location.hostname + '/' + get_slug() + '/' : false;
+
+		if ( !google_title && !google_description ) {
+			$google_search_preview
+				.css('display', 'none');
+		}else{
+			// Add title suffix, if given by the server
+			if ( google_title && typeof eca_seo.title_suffix == 'string' ) google_title += " " + eca_seo.title_suffix;
+
+			// Truncate strings to google length
+			if ( google_title && google_title.length > 68 ) google_title = google_title.substr(0, 65) + "&hellip;";
+			if ( google_description && google_description.length > 163 ) google_description = google_description.substr(0, 160) + "&hellip;";
+
+			var focus_keywords_counts = {
+				title: 0,
+				description: 0,
+				url: 0
+			};
+
+			google_title = highlight_focus_keywords( google_title, focus_keyword, focus_keywords_counts, 'title' );
+			google_description = highlight_focus_keywords( google_description, focus_keyword, focus_keywords_counts, 'description' );
+			google_url = highlight_focus_keywords( google_url, focus_keyword, focus_keywords_counts, 'url' );
+
+			$googleTitle.html( google_title );
+			$googleDescription.html( google_description );
+			$googleURL.html( google_url );
+
+			$google_search_preview
+				.css('display', '')
+				.attr('data-fc-title', focus_keywords_counts.title)
+				.attr('data-fc-description', focus_keywords_counts.description)
+				.attr('data-fc-url', focus_keywords_counts.url);
+		}
+	};
+
+
+	$submit_article_form.on('keyup change', ':input', function(e) {
+		refreshGooglePreview();
+	});
+
+	refreshGooglePreview();
+}
 
 function eca_rearrange_submit_article_fields() {
 	var $acf_form = jQuery('#eca-submit-article-form').find('form');
@@ -12,7 +159,21 @@ function eca_rearrange_submit_article_fields() {
 	var $content_field = $acf_form.find('.acf-field.acf-field--post-content');
 
 	// Move keyword field after content
-	$content_field.after($keyword_field);
+	$content_field.after( $keyword_field );
+
+	// SEO stuff in a group
+	var $seo_title = $acf_form.find('.acf-field.acf-field-58ad19d298374');
+	var $seo_slug = $acf_form.find('.acf-field.acf-field-58ad1dc498376');
+	var $seo_description = $acf_form.find('.acf-field.acf-field-58ad1db898375');
+	var $focus_keyword = $acf_form.find('.acf-field.acf-field-58ad1dd998377');
+	var $google_search_preview = $acf_form.find('.acf-field.acf-field-58ad1dfe98379');
+
+	var $seo_fields = jQuery('<div>', {class: 'eca-seo-fields acf-fields'});
+	$seo_fields.append( $seo_title, $seo_slug, $seo_description, $focus_keyword, $google_search_preview );
+
+	$keyword_field.after( $seo_fields );
+
+	console.log( $seo_fields);
 }
 
 // When clicking the "Send Email" link for an author, open a lightbox with a contact form

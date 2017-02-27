@@ -475,3 +475,43 @@ a.eca-lightbox-close {
 .acf-form-submit {
 	padding: 15px 12px;
 }
+
+/* Google Search Preview */
+.eca-google-title-wrap {
+	font-family: Roboto, arial, sans-serif;
+	font-size: 18px;
+	line-height: 21px;
+	color: #1a0dab;
+	text-decoration: none;
+}
+
+.eca-google-url {
+	color: #006621;
+	font-style: normal;
+	font-size: 14px;
+	line-height: 16px;
+}
+
+.eca-google-description {
+	font-family: Roboto, arial, sans-serif;
+	font-size: 13px;
+	line-height: 18px;
+	color: #545454;
+}
+
+.eca-google-focus-keyword {
+	font-weight: 700;
+	outline: 1px solid rgba(2, 136, 209, 0.33);
+}
+
+.eca-seo-fields {
+	margin: 0 -20px;
+	padding: 20px;
+	background: #f8f8f8;
+}
+
+.acf-fields > .acf-field.acf-field-58ad1dfe98379 {
+	background: #fff;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 1px rgba(0,0,0,0.2);
+	margin: 10px;
+}

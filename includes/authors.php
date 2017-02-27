@@ -24,7 +24,7 @@ function eca_can_user_submit_article() {
 /**
  * Returns an array of the author's categories. Currently, only one category is supported, but an array is used anyway to give support for multiple categories in the future.
  * 
- * @return bool|mixed|null|void
+ * @return bool|mixed|null
  */
 function eca_get_user_categories() {
 	$category = get_field( 'eca_author_category', 'user_' . get_current_user_id(), false );
@@ -95,10 +95,54 @@ add_filter( 'acf/pre_save_post' , 'eca_save_submitted_article_with_scheduled_dat
 
 
 /**
+ * Saves the SEO fields (title, slug, description, and focus keyword) to Yoast's meta keys
+ *
+ * @param $post_id
+ */
+function eca_save_seo_data_to_yoast( $post_id ) {
+	if ( get_post_type($post_id) != 'post' ) return;
+
+	$seo_title = isset($_POST['acf']['field_58ad19d298374']) ? stripslashes($_POST['acf']['field_58ad19d298374']) : false;
+	$seo_slug = isset($_POST['acf']['field_58ad1dc498376']) ? stripslashes($_POST['acf']['field_58ad1dc498376']) : false;
+	$seo_description = isset($_POST['acf']['field_58ad1db898375']) ? stripslashes($_POST['acf']['field_58ad1db898375']) : false;
+	$focus_keyword = isset($_POST['acf']['field_58ad1dd998377']) ? stripslashes($_POST['acf']['field_58ad1dd998377']) : false;
+	
+	// Save the SEO title. Add separator and sitename to the end.
+	if ( $seo_title && !get_post_meta( $post_id, '_yoast_wpseo_title', true ) ) {
+		$suffix = ' %%sep%% %%sitename%%';
+		update_post_meta( $post_id, '_yoast_wpseo_title', $seo_title . $suffix );
+	}
+	
+	// Save the SEO description.
+	if ( $seo_description && !get_post_meta( $post_id, '_yoast_wpseo_metadesc', true ) ) {
+		update_post_meta( $post_id, '_yoast_wpseo_metadesc', $seo_description );
+	}
+	
+	// Save the focus keyword.
+	if ( $focus_keyword && !get_post_meta( $post_id, '_yoast_wpseo_focuskw', true ) ) {
+		update_post_meta( $post_id, '_yoast_wpseo_focuskw', $focus_keyword );
+		update_post_meta( $post_id, '_yoast_wpseo_focuskw_text_input', $focus_keyword );
+	}
+	
+	// Save a custom post slug
+	if ( $seo_slug ) {
+		$args = array(
+			'ID' => $post_id,
+			'post_name' => $seo_slug
+		);
+		
+		wp_update_post( $args );
+	}
+}
+
+add_action( 'acf/save_post' , 'eca_save_seo_data_to_yoast', 5 );
+
+
+/**
  * Replaces tags within the provided string with the author's data
  * @param $string
  * @param null $author_id
- * @return mixed|void
+ * @return mixed
  */
 function eca_replace_author_info_tags( $string, $author_id ) {
 	$user = get_user_by( 'id', $author_id );

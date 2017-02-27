@@ -5,6 +5,9 @@ if( ! defined( 'ABSPATH' ) ) exit;
  * Include the plugin's CSS and JS on pages that include the shortcode.
  */
 function eca_enqueue_front_end_scripts() {
+	// Roboto, as used by Google
+	wp_enqueue_style( 'roboto-font', '//fonts.googleapis.com/css?family=Roboto' );
+	
 	wp_enqueue_style( 'eca', ECA_URL . '/assets/eca.css', array( 'dashicons' ), ECA_VERSION );
 	wp_enqueue_script( 'eca', ECA_URL . '/assets/eca.js', array( 'jquery' ), ECA_VERSION );
 }
@@ -28,3 +31,27 @@ function eca_register_acf_hooks() {
 }
 add_action( 'wp', 'eca_register_acf_hooks', 25 );
 
+/**
+ * Print some server-side variables that can be accessed via js
+ */
+function eca_print_scripts() {
+	if ( !is_user_logged_in() ) return;
+	
+	$category = eca_get_user_categories(); // returns an array, but we just want one
+	if ( $category ) {
+		$category = get_term_by( 'id', $category[0], 'category' );
+	}
+	
+	$eca_seo = array(
+		'title_suffix' => get_bloginfo('title') ? ' – ' . get_bloginfo('title') : '',
+		'site_url' => untrailingslashit(site_url()),
+		'expert_category' => $category,
+	);
+	
+	?>
+<script type="text/javascript">
+var eca_seo = <?php echo json_encode($eca_seo); ?>;
+</script>
+<?php
+}
+add_action( 'wp_print_scripts', 'eca_print_scripts', 8 );

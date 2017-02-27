@@ -46,7 +46,7 @@ function eca_init_plugin() {
 	include_once( ECA_PATH . '/field-groups/author-category.php' );
 	include_once( ECA_PATH . '/field-groups/author-information.php' );
 	include_once( ECA_PATH . '/field-groups/stock-photo.php' );
-	include_once( ECA_PATH . '/field-groups/submit-an-article.php' );
+	// include_once( ECA_PATH . '/field-groups/submit-an-article.php' );
 	
 	// Stock Photos
 	include_once( ECA_PATH . '/stock-photo/post-type.php' );
