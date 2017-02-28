@@ -6,7 +6,40 @@ jQuery(function() {
 	eca_google_preview_and_seo();
 
 	eca_seo_analysis_tool();
+
+	eca_convert_instructions_to_info_bubble();
 });
+
+function eca_convert_instructions_to_info_bubble() {
+	var $acf_form = jQuery('#post');
+	if ( $acf_form.length < 1 ) return;
+
+	var fields = ".acf-field-58ad19d298374"; // Seo title
+	fields +=  ", .acf-field-58ad1dc498376"; // Seo url slug
+	fields +=  ", .acf-field-58ad1db898375"; // Seo description
+	fields +=  ", .acf-field-58ad1dd998377"; // Focus keyword
+
+	var $bubble = jQuery('<div>', {class: 'eca-info-bubble'});
+
+	$bubble.append(
+		jQuery('<span>', {class: 'eca-info-bubble-handle'}).html('?')
+	);
+
+	var convert_field_instruction_to_bubble = function( index ) {
+		var $label = jQuery(this).find('.acf-label label');
+		var $info = jQuery(this).find('.acf-label p.description');
+
+		var $bubbleClone = $bubble.clone();
+
+		$bubbleClone.append(
+				jQuery('<div>', {class: 'eca-info-bubble-content'}).append( $info )
+			);
+
+		$label.append( $bubbleClone );
+	};
+
+	$acf_form.find( fields ).each(convert_field_instruction_to_bubble);
+}
 
 function eca_seo_analysis_tool() {
 	var $acf_form = jQuery('#post');

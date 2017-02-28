@@ -515,3 +515,77 @@ a.eca-lightbox-close {
 	box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 1px rgba(0,0,0,0.2);
 	margin: 10px;
 }
+
+
+/* Info bubbles */
+.eca-info-bubble {
+	display: inline-block;
+}
+
+.eca-info-bubble-content {
+	position: absolute;
+	z-index: 20;
+	bottom: 100%;
+	left: 20px;
+	padding: 8px 12px;
+	background: #0288d1;
+	color: #fff;
+	border-radius: 3px;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.eca-info-bubble .eca-info-bubble-content {
+	display: none;
+}
+
+.eca-info-bubble:hover .eca-info-bubble-content {
+	display: block;
+}
+
+.eca-info-bubble-content p.description {
+	color: #fff;
+	margin: 0 !important;
+}
+
+.eca-info-bubble-handle {
+	display: inline-block;
+	width: 1.4em;
+	height: 1.4em;
+	text-align: center;
+	background: #c7c7c7;
+	color: #fff;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+	box-shadow: inset 0 1px 0 rgba(0,0,0,0.25);
+	margin: 0 0 0 5px;
+	border-radius: 100%;
+	position: relative;
+}
+
+.eca-info-bubble:hover .eca-info-bubble-handle {
+	background: #0288d1;
+}
+
+
+.eca-info-bubble:hover .eca-info-bubble-handle:before {
+	content: '';
+	display: block;
+	position: absolute;
+	z-index: 25;
+	top: -15px;
+	left: 50%;
+	margin-left: -10px;
+	border: 10px solid transparent;
+	border-bottom-width: 0;
+	border-top-color: #0288d1;
+}
+
+.eca-info-bubble:hover .eca-info-bubble-handle:after {
+	content: '';
+	display: block;
+	position: absolute;
+	z-index: 15;
+	left: -5px;
+	right: -5px;
+	top: -15px;
+	bottom: 0;
+}
