@@ -3,11 +3,25 @@ jQuery(function() {
 
 	eca_rearrange_submit_article_fields();
 
-	eca_init_seo_and_google();
+	eca_google_preview_and_seo();
+
+	eca_seo_analysis_tool();
 });
 
-function eca_init_seo_and_google() {
+function eca_seo_analysis_tool() {
+	var $acf_form = jQuery('#post');
+	if ( $acf_form.length < 1 ) return;
+
+	var $analysis_form = jQuery('<div>');
+}
+
+function eca_google_preview_and_seo() {
+	var $acf_form = jQuery('#post');
+	if ( $acf_form.length < 1 ) return;
+
 	var $seo_title = jQuery('#acf-field_58ad19d298374');
+	if ( $seo_title.length < 1 ) return;
+
 	var $post_title = jQuery('#acf-_post_title');
 
 	var $post_slug = jQuery('#acf-field_58ad1dc498376');
@@ -20,8 +34,8 @@ function eca_init_seo_and_google() {
 	var $post_desc_textarea = jQuery('#'+ wysiwyg_id);
 	var $post_desc_wrap = jQuery('#wp-'+ wysiwyg_id +'-wrap');
 
-	var $google_search_preview = jQuery('.acf-field.acf-field-58ad1dfe98379');
-	var $googlePlacementTarget = jQuery('div.acf-field.acf-field-58ad1dfe98379 .acf-input');
+	var $google_search_preview = $acf_form.find('.acf-field.acf-field-58ad1dfe98379');
+	var $googlePlacementTarget = $acf_form.find('div.acf-field.acf-field-58ad1dfe98379 .acf-input');
 	var $googleTitle = jQuery('<span>', {class: 'eca-google-title'});
 	var $googleURL = jQuery('<span>', {class: 'eca-google-url'});
 	var $googleDescription = jQuery('<div>', {class: 'eca-google-description'});
@@ -98,7 +112,8 @@ function eca_init_seo_and_google() {
 			var pattern = new RegExp("\\b(" + keyword + ")\\b", "gi");
 
 			if ( typeof counter_object != 'undefined' ) {
-				counter_object[counter_key] = string.match( pattern ).length;
+				var matches = string.match( pattern );
+				counter_object[counter_key] = matches ? matches.length : 0;
 			}
 
 			return string.replace( pattern, "<span class=\"eca-google-focus-keyword\" title=\"Your focus keyword\">$1</span>" );
