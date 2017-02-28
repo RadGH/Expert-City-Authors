@@ -168,7 +168,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => 'SEO Title',
 				'name' => 'eca_seo_title',
 				'type' => 'text',
-				'instructions' => '',
+				'instructions' => 'The SEO title should be similar to or the same as the site title. You should leave this empty in most cases, unless the title is too long and can be reduced.',
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array (
@@ -184,10 +184,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array (
 				'key' => 'field_58ad1dc498376',
-				'label' => 'SEO Slug',
+				'label' => 'SEO URL Slug',
 				'name' => 'eca_seo_slug',
 				'type' => 'text',
-				'instructions' => '',
+				'instructions' => 'A slug is the last part of the URL that identifies the page. You should not include the domain name in this field. Example slug: <strong>5-tips-to-writing-articles</strong>',
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array (
@@ -206,7 +206,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => 'SEO Description',
 				'name' => 'eca_seo_description',
 				'type' => 'textarea',
-				'instructions' => '',
+				'instructions' => 'This is the excerpt that Google will display when your article is found. This paragraph should have relevance with the content found in the page.',
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array (
@@ -225,7 +225,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => 'Focus Keyword',
 				'name' => 'eca_focus_keyword',
 				'type' => 'text',
-				'instructions' => '',
+				'instructions' => 'This is the term of phrase that you want your article to rank for in Google. Google does not see this keyword directly, but ensuring that you have used a consistent focus keyword will help improve the search engine relevance for visitors who search for the phrase.',
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array (
