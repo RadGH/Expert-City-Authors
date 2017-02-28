@@ -45,7 +45,41 @@ function eca_seo_analysis_tool() {
 	var $acf_form = jQuery('#post');
 	if ( $acf_form.length < 1 ) return;
 
-	var $analysis_form = jQuery('<div>');
+	var $analysis_form = jQuery('<div>', {class: 'eca-seo-analysis'});
+/*
+<div class="eca-seo-analysis fixed">
+
+	<div class="eca-analysis-header">
+		Article SEO Analysis
+		<span class="eca-analysis-toggle"></span>
+	</div>
+
+	<div class="eca-analysis-content">
+		<div class="eca-quality-list">
+
+			<div class="eca-quality-item eca-quality-good eca-quality-field__category">
+			<span class="eca-score-indicator"></span>
+			<span class="eca-score-item eca-score-good">The article content includes your Expert Category (<span class="eca-data" data-field="expert-category">Dog Photo Master</span>).</span>
+			<span class="eca-score-item eca-score-poor eca-score-bad">The article content does not include your Expert Category (<span class="eca-data" data-field="expert-category">Dog Photo Master</span>).</span>
+			</div>
+
+			<div class="eca-quality-item eca-quality-poor eca-quality-field__category">
+			<span class="eca-score-indicator"></span>
+			<span class="eca-score-item eca-score-good">The article content includes your Expert Category (<span class="eca-data" data-field="expert-category">Dog Photo Master</span>).</span>
+			<span class="eca-score-item eca-score-poor eca-score-bad">The article content does not include your Expert Category (<span class="eca-data" data-field="expert-category">Dog Photo Master</span>).</span>
+			</div>
+
+			<div class="eca-quality-item eca-quality-bad eca-quality-field__category">
+			<span class="eca-score-indicator"></span>
+			<span class="eca-score-item eca-score-good">The article content includes your Expert Category (<span class="eca-data" data-field="expert-category">Dog Photo Master</span>).</span>
+			<span class="eca-score-item eca-score-poor eca-score-bad">The article content does not include your Expert Category (<span class="eca-data" data-field="expert-category">Dog Photo Master</span>).</span>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+*/
 }
 
 function eca_google_preview_and_seo() {
