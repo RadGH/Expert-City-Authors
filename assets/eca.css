@@ -527,6 +527,7 @@ a.eca-lightbox-close {
 	z-index: 20;
 	bottom: 100%;
 	left: 20px;
+	max-width: calc(100% - 40px);
 	padding: 8px 12px;
 	background: #0288d1;
 	color: #fff;
@@ -543,7 +544,7 @@ a.eca-lightbox-close {
 }
 
 .eca-info-bubble-content p.description {
-	color: #fff;
+	color: #fff !important;
 	margin: 0 !important;
 }
 
