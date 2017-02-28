@@ -173,7 +173,7 @@
 					"id": ""
 				},
 				"default_value": "",
-				"placeholder": "",
+				"placeholder": "Defaults to the article title.",
 				"prepend": "",
 				"append": "",
 				"maxlength": ""
@@ -192,7 +192,7 @@
 					"id": ""
 				},
 				"default_value": "",
-				"placeholder": "",
+				"placeholder": "Defaults to url-safe version of the post title.",
 				"prepend": "",
 				"append": "",
 				"maxlength": ""
@@ -211,17 +211,17 @@
 					"id": ""
 				},
 				"default_value": "",
-				"placeholder": "",
+				"placeholder": "Defaults to the first 128 characters of the article.",
 				"maxlength": "",
 				"rows": 2,
 				"new_lines": ""
 			},
 			{
 				"key": "field_58ad1dd998377",
-				"label": "Focus Keyword",
+				"label": "Focus Search Phrase",
 				"name": "eca_focus_keyword",
 				"type": "text",
-				"instructions": "This is the term of phrase that you want your article to rank for in Google. Google does not see this keyword directly, but ensuring that you have used a consistent focus keyword will help improve the search engine relevance for visitors who search for the phrase.",
+				"instructions": "This is the term of phrase that you want your article to rank for in Google. It should be a phrase that you expect visitors to search for. Google does not see this keyword directly, but ensuring that you have used a consistent focus keyword will help improve the search engine relevance for the phrase.",
 				"required": 0,
 				"conditional_logic": 0,
 				"wrapper": {
@@ -230,7 +230,7 @@
 					"id": ""
 				},
 				"default_value": "",
-				"placeholder": "",
+				"placeholder": "Enter a phrase visitors will search for.",
 				"prepend": "",
 				"append": "",
 				"maxlength": ""
