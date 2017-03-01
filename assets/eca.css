@@ -617,17 +617,77 @@ a.eca-lightbox-close {
 		opacity: 1;
 		visibility: visible;
 	}
+
+	.eca-analysis-header {
+		margin: -10px 0 10px -12px;
+		padding: 10px 0 10px 12px;
+		background: #555;
+		color: #fff;
+		font-weight: bold;
+	}
+
+	.eca-analysis-toggle {
+		position: absolute;
+		right: 11px;
+		top: 11px;
+
+		display: block;
+		width: 22px;
+		height: 22px;
+		line-height: 22px;
+
+		background: #fff;
+		text-align: center;
+		border-radius: 100%;
+		box-shadow: 0 0 0 2px #555;
+	}
+
+	.eca-analysis-toggle span:before {
+		position: relative;
+		top: -1px;
+		content: '\203a';
+		font-size: 20px;
+		font-weight: bold;
+		color: #555;
+	}
+
+	.eca-seo-analysis.collapsed .eca-analysis-toggle span:before {
+		content: '\2039';
+	}
+
+	body.herald-sticky-header-visible .eca-seo-analysis {
+		margin-right: 0;
+	}
+
+	body.herald-sticky-header-visible .eca-seo-analysis.collapsed {
+		margin-right: -500px;
+	}
+
+	body.herald-sticky-header-visible .eca-seo-analysis.collapsed .eca-analysis-toggle {
+		right: 511px;
+	}
+
 }
 
+@media ( max-width: 1639px ) {
+	.eca-seo-analysis.fixed {
+		margin: 15px 12px;
+	}
+
+	.eca-analysis-header {
+		display: block;
+		font-weight: bold;
+		font-size: 13px;
+		line-height: 1.4em;
+		margin: 0 0 3px;
+	}
+
+	body.herald-sticky-header-visible .eca-seo-analysis.collapsed .eca-analysis-toggle {
+		position: absolute;
+		right: 511px;
+	}
+}
 /**********/
-
-.eca-analysis-header {
-	margin: -10px 0 10px -12px;
-	padding: 10px 0 10px 12px;
-	background: #555;
-	color: #fff;
-	font-weight: bold;
-}
 
 .eca-quality-item {
 	position: relative;
@@ -640,19 +700,13 @@ a.eca-lightbox-close {
 }
 
 .eca-quality-item .eca-score-item {
-	display: none;
-	overflow: hidden;
 	font-size: 14px;
 	line-height: 20px;
 }
 
-.eca-quality-item.eca-quality-good .eca-score-good,
-.eca-quality-item.eca-quality-poor .eca-score-poor,
-.eca-quality-item.eca-quality-bad .eca-score-bad { display: block; }
-
 .eca-score-indicator {
 	position: absolute;
-	top: 50%;
+	top: 13px;
 	left: -24px;
 	display: inline-block;
 	float: left;
@@ -669,3 +723,7 @@ a.eca-lightbox-close {
 .eca-quality-item.eca-quality-good .eca-score-indicator { background: #06e00a; }
 .eca-quality-item.eca-quality-poor .eca-score-indicator { background: #f5ec16; }
 .eca-quality-item.eca-quality-bad .eca-score-indicator { background: #f7573b; }
+
+.eca-google-wrap em {
+	opacity: 0.5;
+}
