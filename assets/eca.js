@@ -306,6 +306,8 @@ function eca_seo_analysis_tool( $article_form, formData ) {
 			if ( !text ) {
 				analysisItem.hide();
 				return;
+			}else{
+				analysisItem.show();
 			}
 
 			var paragraphs = text.split(/[\r\n]{2,}/);
@@ -375,7 +377,7 @@ function eca_seo_analysis_tool( $article_form, formData ) {
 		analysis_items.push( analysisItem );
 	})();
 
-	// Analysis Item -- Check length of article or seo title
+	// Analysis Item -- Check length of slug
 	(function() {
 		if ( !eca_seo.expert_category ) return;
 
