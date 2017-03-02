@@ -477,6 +477,11 @@ a.eca-lightbox-close {
 }
 
 /* Google Search Preview */
+.eca-google-wrap {
+	max-width: 600px;
+	overflow: hidden;
+}
+
 .eca-google-title-wrap {
 	font-family: Roboto, arial, sans-serif;
 	font-size: 18px;
@@ -502,6 +507,10 @@ a.eca-lightbox-close {
 .eca-google-focus-keyword {
 	font-weight: 700;
 	outline: 1px solid rgba(2, 136, 209, 0.33);
+}
+
+.eca-google-wrap em {
+	opacity: 0.5;
 }
 
 .eca-seo-fields {
@@ -597,20 +606,20 @@ a.eca-lightbox-close {
 
 @media ( min-width: 1640px ) {
 	.eca-seo-analysis {
-		transition: transform 0.25s ease-out;
+		transition: transform 0.25s ease-out, margin-right 0.25s ease-out;
 		opacity: 0;
 		visibility: hidden;
 		transform: scale(0.3);
 		transform-origin: top right;
 	}
 
-	body.herald-sticky-header-visible .eca-seo-analysis {
+	body.eca_scrolled .eca-seo-analysis {
 		position: fixed;
 		top: 12%;
 		right: 0;
 		width: 320px;
 		max-width: 20%;
-		padding: 10px 0 10px 12px;
+		padding: 10px 0 0 12px;
 		background: #fff;
 		box-shadow: 0 1px 0 rgba(0,0,0,0.25), 0 2px 3px rgba(0,0,0,0.25);
 		transform: scale(1);
@@ -620,7 +629,7 @@ a.eca-lightbox-close {
 
 	.eca-analysis-header {
 		margin: -10px 0 10px -12px;
-		padding: 10px 0 10px 12px;
+		padding: 10px 0 14px 12px;
 		background: #555;
 		color: #fff;
 		font-weight: bold;
@@ -640,6 +649,12 @@ a.eca-lightbox-close {
 		text-align: center;
 		border-radius: 100%;
 		box-shadow: 0 0 0 2px #555;
+
+		transition: right 0.25s ease-out;
+	}
+
+	.entry-content a.eca-analysis-toggle { /* herald override */
+		transition: right 0.25s ease-out;
 	}
 
 	.eca-analysis-toggle span:before {
@@ -655,15 +670,15 @@ a.eca-lightbox-close {
 		content: '\2039';
 	}
 
-	body.herald-sticky-header-visible .eca-seo-analysis {
+	body.eca_scrolled .eca-seo-analysis {
 		margin-right: 0;
 	}
 
-	body.herald-sticky-header-visible .eca-seo-analysis.collapsed {
+	body.eca_scrolled .eca-seo-analysis.collapsed {
 		margin-right: -500px;
 	}
 
-	body.herald-sticky-header-visible .eca-seo-analysis.collapsed .eca-analysis-toggle {
+	body.eca_scrolled .eca-seo-analysis.collapsed .eca-analysis-toggle {
 		right: 511px;
 	}
 
@@ -679,24 +694,26 @@ a.eca-lightbox-close {
 		font-weight: bold;
 		font-size: 13px;
 		line-height: 1.4em;
-		margin: 0 0 3px;
+		margin: 0 0 13px;
 	}
 
-	body.herald-sticky-header-visible .eca-seo-analysis.collapsed .eca-analysis-toggle {
+	body.eca_scrolled .eca-seo-analysis.collapsed .eca-analysis-toggle {
 		position: absolute;
 		right: 511px;
 	}
 }
 /**********/
+.eca-quality-list {
+	padding-right: 12px;
+}
 
 .eca-quality-item {
 	position: relative;
 	margin-left: 24px;
-}
-
-.eca-quality-item:not(:last-child) {
 	margin-bottom: 14px;
 
+	font-size: 12px;
+	line-height: 16px;
 }
 
 .eca-quality-item .eca-score-item {
@@ -706,24 +723,19 @@ a.eca-lightbox-close {
 
 .eca-score-indicator {
 	position: absolute;
-	top: 13px;
+	top: 2px;
 	left: -24px;
 	display: inline-block;
 	float: left;
 
 	width: 14px;
 	height: 14px;
-	margin-top: -7px;
 	line-height: 20px;
 
 	border-radius: 100%;
-	box-shadow: inset 0 2px rgba(0,0,0,0.25);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.15);
 }
 
 .eca-quality-item.eca-quality-good .eca-score-indicator { background: #06e00a; }
 .eca-quality-item.eca-quality-poor .eca-score-indicator { background: #f5ec16; }
 .eca-quality-item.eca-quality-bad .eca-score-indicator { background: #f7573b; }
-
-.eca-google-wrap em {
-	opacity: 0.5;
-}

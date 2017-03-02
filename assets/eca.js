@@ -10,6 +10,8 @@ jQuery(function() {
 
 		eca_convert_instructions_to_info_bubble( $article_form );
 
+		eca_add_scroll_down_class();
+
 		// Object to handle getting and updating values from the form, to improve efficiency
 		var formData = new EcaFormDataHandler( $article_form );
 
@@ -35,7 +37,7 @@ jQuery(function() {
 });
 
 function EcaFormDataHandler( $article_form ) {
-	var formData, field_values, get_slug, get_content;
+	var formData, refreshField, get_slug, get_content;
 
 	formData = this;
 
@@ -54,6 +56,17 @@ function EcaFormDataHandler( $article_form ) {
 		'focus_keyword':         jQuery('#acf-field_58ad1dd998377')
 	};
 
+	// The last obtained values of the fields
+	formData.field_values = {
+		'post_title':        '',
+		'post_content':      '',
+		'post_content_text': '', // Same as post_content except HTML is stripped
+		'seo_title':         '',
+		'seo_slug':          '',
+		'seo_description':   '',
+		'focus_keyword':     ''
+	};
+
 	// WYSIWYG fields might change or may not initialize at the beginning of the page. This will reassign the post content fields.
 	formData.updatePostContentFields = function() {
 		formData.wysiwyg_id = acf.fields.wysiwyg.get_mceInit().id;
@@ -61,14 +74,17 @@ function EcaFormDataHandler( $article_form ) {
 		formData.fields.post_content.wrap     = jQuery('#wp-'+ formData.wysiwyg_id +'-wrap');
 	};
 
-	// The last obtained values of the fields
-	formData.field_values = {
-		'post_title':     '',
-		'post_content':   '',
-		'seo_title':      '',
-		'seo_slug':       '',
-		'seo_description':'',
-		'focus_keyword':  ''
+	formData.$e = jQuery('<div>'); // reusable element for strip_html
+
+	formData.strip_html = function( html ) {
+		// Create a text-only version
+		if ( !html || typeof html != 'string' ) return "";
+
+		var string = formData.$e.html( html ).text(); // jquery creates elements of the html, then returns the text value
+
+		formData.$e.html(''); // clear element
+
+		return string;
 	};
 
 	// Post content can be from WYSIWYG or from the text area directly, depending on whether TinyMCE is active
@@ -77,11 +93,15 @@ function EcaFormDataHandler( $article_form ) {
 			formData.updatePostContentFields();
 		}
 
+		var content = "";
+
 		if ( formData.wysiwyg_id && formData.fields.post_content.wrap.hasClass('.tmce-active') ) {
-			return tinyMCE.get( formData.wysiwyg_id ).getContent(); // Get content from visual editor
+			content = tinyMCE.get( formData.wysiwyg_id ).getContent(); // Get content from visual editor
 		}else{
-			return formData.fields.post_content.textarea.val(); // Get content from text editor
+			content = formData.fields.post_content.textarea.val(); // Get content from text editor
 		}
+
+		return typeof content == 'string' ? content : "";
 	};
 
 	// The slug should inherit from the post title or seo title;
@@ -105,18 +125,23 @@ function EcaFormDataHandler( $article_form ) {
 
 	// Retreives a value for a field
 	formData.getField = function( name ) {
-		if ( typeof formData.fields[name] == 'undefined' ) return false;
+		if ( typeof formData.field_values[name] == 'undefined' ) return false;
 
 		return formData.field_values[name];
 	};
 
 	// Updates the value of a given field
-	formData.refreshField = function( name ) {
-		if ( typeof formData.fields[name] == 'undefined' ) return false;
+	refreshField = function( name, refreshing_all ) {
+		if ( typeof formData.field_values[name] == 'undefined' ) return false;
 
 		switch( name ) {
 			case 'post_content':
 				formData.field_values[name] = get_content();
+				break;
+			case 'post_content_text':
+				// update post content first, if this is refreshed individually
+				if ( typeof refreshing_all == 'undefined' || !refreshing_all ) formData.field_values['post_content'] = get_content();
+				formData.field_values[name] = formData.strip_html( formData.field_values['post_content'] );
 				break;
 			case 'seo_slug':
 				formData.field_values[name] = get_slug();
@@ -131,7 +156,7 @@ function EcaFormDataHandler( $article_form ) {
 	formData.refreshAll = function() {
 		for ( var i in formData.field_values ) {
 			if ( !formData.field_values.hasOwnProperty(i) ) continue;
-			formData.refreshField( i );
+			refreshField( i, true );
 		}
 	};
 
@@ -185,6 +210,8 @@ function eca_seo_analysis_tool( $article_form, formData ) {
 		var o = this;
 		o.$row = $analysis_row_blueprint.clone();
 		o.$row_text = o.$row.find('.eca-score-text');
+		o.quality = 'bad';
+		o.hidden = false;
 
 		$quality_items.append( o.$row );
 
@@ -194,7 +221,18 @@ function eca_seo_analysis_tool( $article_form, formData ) {
 			o.$row_text.html( message );
 		};
 
+		o.hide = function() {
+			if ( o.hidden ) return; o.hidden = true;
+			o.$row.css('display', 'none');
+		};
+
+		o.show = function() {
+			if ( !o.hidden ) return; o.hidden = false;
+			o.$row.css('display', '');
+		};
+
 		o.setQuality = function( new_quality ) {
+			o.quality = new_quality;
 			o.$row
 				.toggleClass('eca-quality-good', new_quality == 'good')
 				.toggleClass('eca-quality-poor', new_quality == 'poor')
@@ -225,7 +263,7 @@ function eca_seo_analysis_tool( $article_form, formData ) {
 				analysisItem.setMessage('Your expert category is in your article.');
 				analysisItem.setQuality('good');
 			}else{
-				analysisItem.setMessage('Your expert category ('+ expert_category +') should be included in your article.');
+				analysisItem.setMessage('You should include your expert category in the article: '+ expert_category +'.');
 				analysisItem.setQuality('bad');
 			}
 		};
@@ -244,11 +282,197 @@ function eca_seo_analysis_tool( $article_form, formData ) {
 
 			// Check if a heading exists
 			if ( post_content.match(/<h[1-6]>/) ) {
-				analysisItem.setMessage('You have included at least one heading.');
+				analysisItem.setMessage('You have included a subheading.');
 				analysisItem.setQuality('good');
 			}else{
-				analysisItem.setMessage('Organize your article using at least one heading.');
+				analysisItem.setMessage('You should organize your article using at least one subheading.');
 				analysisItem.setQuality('bad');
+			}
+		};
+
+		analysis_items.push( analysisItem );
+	})();
+
+	// Analysis Item -- Check for long paragraphs
+	(function() {
+		if ( !eca_seo.expert_category ) return;
+
+		var analysisItem = new analysis_item_object(); // inherit from our abstract
+
+		analysisItem.update = function() {
+			var text = formData.getField('post_content_text') || "";
+
+			// No text to parse yet.
+			if ( !text ) {
+				analysisItem.hide();
+				return;
+			}
+
+			var paragraphs = text.split(/[\r\n]{2,}/);
+			var worst_score = 0;
+
+			if ( paragraphs && paragraphs.length > 0 ) {
+				for ( var i in paragraphs ) {
+					if ( !paragraphs.hasOwnProperty(i) ) continue;
+
+					worst_score = Math.max(worst_score, paragraphs[i].length);
+				}
+			}
+
+			if ( worst_score > 900 ) {
+				analysisItem.setMessage('You have a paragraph that is extremely long (900+ characters).');
+				analysisItem.setQuality('bad');
+			}else if ( worst_score > 650 ) {
+				analysisItem.setMessage('You have a paragraph that is very long (600+ characters).');
+				analysisItem.setQuality('poor');
+			}else{
+				analysisItem.setMessage('None of your paragraphs are too long.');
+				analysisItem.setQuality('good');
+			}
+		};
+
+		analysis_items.push( analysisItem );
+	})();
+
+	// Analysis Item -- Check length of article or seo title
+	(function() {
+		if ( !eca_seo.expert_category ) return;
+
+		var analysisItem = new analysis_item_object(); // inherit from our abstract
+
+		analysisItem.update = function() {
+			var title = formData.getField('seo_title') || "";
+			var using_seo_title = true;
+
+			if ( !title ) {
+				title = formData.getField('post_title') || "";
+				using_seo_title = false;
+			}
+
+			// Add the title prefix to the title length
+			var article_title_length = title.length;
+			var website_title_length = article_title_length + eca_seo.title_suffix.length;
+
+			if ( article_title_length > 68 ) {
+				analysisItem.setMessage('The title of the article is extremely long and will be truncated on Google.');
+				analysisItem.setQuality('bad');
+			}else if ( website_title_length > 68 ) {
+				if ( using_seo_title )
+					analysisItem.setMessage('The title of the article is long, make sure the title in the Google Search Preview is acceptable.');
+				else
+					analysisItem.setMessage('The title of the article is long, try using a shorter version in the <a href="#acf-field_58ad19d298374" title="Scroll down to the SEO Title field">SEO Title</a>.');
+
+				analysisItem.setQuality('poor');
+			}else if ( article_title_length < 10 ) {
+				analysisItem.setMessage('The article title is too short.');
+				analysisItem.setQuality('bad');
+			}else{
+				analysisItem.setMessage('The title of the article is a good length.');
+				analysisItem.setQuality('good');
+			}
+		};
+
+		analysis_items.push( analysisItem );
+	})();
+
+	// Analysis Item -- Check length of article or seo title
+	(function() {
+		if ( !eca_seo.expert_category ) return;
+
+		var analysisItem = new analysis_item_object(); // inherit from our abstract
+
+		analysisItem.update = function() {
+			var slug = formData.getField('seo_slug');
+
+			if ( !slug ) {
+				analysisItem.hide();
+				return;
+			}else{
+				analysisItem.show();
+			}
+
+			if ( slug.length > 50 ) {
+				if ( formData.fields.seo_slug.val().length < 1 )
+					analysisItem.setMessage('The URL of this article will be extremely long, try adding a shorter version in the <a href="#acf-field_58ad1dc498376" title="Scroll down to the SEO URL Slug field">SEO URL Slug</a>.');
+				else
+					analysisItem.setMessage('The URL of this article will be extremely long, try shortening it.');
+
+				analysisItem.setQuality('bad');
+			}else if ( slug.length > 35 ) {
+				if ( formData.fields.seo_slug.val().length < 1 )
+					analysisItem.setMessage('The URL of this article will be very long, try adding a shorter version in the <a href="#acf-field_58ad1dc498376" title="Scroll down to the SEO URL Slug field">SEO URL Slug</a>.');
+				else
+					analysisItem.setMessage('The URL of this article will be very long, try shortening it.');
+
+				analysisItem.setQuality('poor');
+			}else{
+				analysisItem.setMessage('The URL slug is a good length.');
+				analysisItem.setQuality('good');
+			}
+		};
+
+		analysis_items.push( analysisItem );
+	})();
+
+	// Analysis Item -- Links in the article
+	(function() {
+		if ( !eca_seo.expert_category ) return;
+
+		var analysisItem = new analysis_item_object(); // inherit from our abstract
+
+		analysisItem.update = function() {
+			var html = formData.getField('post_content');
+
+			var links = html.match(/<a .*?href/g);
+			var number_of_links = links ? links.length : 0;
+
+			if ( number_of_links > 1 ) {
+				analysisItem.setMessage('You have multiple links in the article.');
+				analysisItem.setQuality('good');
+			}else if ( number_of_links == 1 ) {
+				analysisItem.setMessage('You have one link in the article, which is okay. Consider adding more.');
+				analysisItem.setQuality('poor');
+			}else{
+				analysisItem.setMessage('Consider adding links to relevant websites in your article.');
+				analysisItem.setQuality('bad');
+			}
+		};
+
+		analysis_items.push( analysisItem );
+	})();
+
+	// Analysis Item -- Images with alt text
+	(function() {
+		if ( !eca_seo.expert_category ) return;
+
+		var analysisItem = new analysis_item_object(); // inherit from our abstract
+
+		analysisItem.update = function() {
+			var html = formData.getField('post_content');
+
+			var links = html.match(/<img(.*?)>/ig);
+
+			if ( links ) {
+				// We have an image to check
+				analysisItem.show();
+
+				for ( var i in links ) {
+					if ( !links.hasOwnProperty(i) ) continue;
+					var alt = links[i].match(/alt=['"](.*?)['"]/);
+
+					if ( !alt || typeof alt[1] == 'undefined' || alt[1].length < 1 ) {
+						analysisItem.show();
+						analysisItem.setMessage('The alt text of one or more images is empty.');
+						analysisItem.setQuality('bad');
+						return;
+					}
+				}
+
+				analysisItem.setMessage('All images have the required alt text.');
+				analysisItem.setQuality('good');
+			}else{
+				// No images to worry about, don't even show this
+				analysisItem.hide();
 			}
 		};
 
@@ -321,7 +545,6 @@ function eca_google_preview_and_seo( $article_form, formData ) {
 	);
 
 	var refreshGooglePreview = function() {
-
 		var escape_regexp = function(str) {
 			return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 		};
@@ -353,9 +576,13 @@ function eca_google_preview_and_seo( $article_form, formData ) {
 		var slug = formData.getField('seo_slug');
 		var google_url = slug ? eca_seo.site_url + '/' + slug + '/' : false;
 
-		if ( !google_title ) google_title = '<em>Enter your article title above</em>';
+		if ( google_title ) google_title = formData.strip_html( google_title );
+					   else google_title = '<em>Enter your article title above</em>';
+
+		if ( google_description ) google_description = formData.strip_html( google_description );
+							 else google_description = '<em>Your article content will appear here.</em>';
+
 		if ( !google_url ) google_url = eca_seo.site_url + '/<em>your-article</em>/';
-		if ( !google_description ) google_description = '<em>Your article content will appear here.</em>';
 
 		// Add title suffix, if given by the server
 		if ( google_title && typeof eca_seo.title_suffix == 'string' ) google_title += " " + eca_seo.title_suffix;
@@ -388,6 +615,30 @@ function eca_google_preview_and_seo( $article_form, formData ) {
 	$article_form.on('eca_update_fields', function() {
 		refreshGooglePreview();
 	});
+}
+
+function eca_add_scroll_down_class() {
+	var at_top = true;
+	var $body = jQuery('body');
+	var $window = jQuery(window);
+
+	var onWindowScroll = function() {
+		if ( $window.scrollTop() >= 150 ) { // have scrolled down
+			if ( at_top ) { // last we checked was at the top
+				at_top = false;
+				$body.removeClass('eca_top').addClass('eca_scrolled');
+			}
+		}else{
+			if ( !at_top ) { // scrolled back to the top
+				at_top = true;
+				$body.addClass('eca_top').removeClass('eca_scrolled');
+			}
+		}
+	};
+
+	$window.on('scroll', onWindowScroll);
+
+	onWindowScroll(); // initialize with this
 }
 
 function eca_convert_instructions_to_info_bubble( $article_form ) {
@@ -462,9 +713,6 @@ function eca_email_link_to_contact_form_lightbox() {
 		$input.val( author_id );
 		$author_name.text( full_name );
 
-		console.log( full_name );
-		console.log( $author_name[0] );
-
 		$lightbox.css('display', 'block' );
 
 		return false;
@@ -480,7 +728,6 @@ function eca_email_link_to_contact_form_lightbox() {
 
 				if ( jQuery(this).val() != "" ) {
 					is_form_filled = true;
-					console.log( this, jQuery(this).val() );
 				}
 			});
 
