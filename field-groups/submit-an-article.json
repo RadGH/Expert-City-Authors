@@ -221,7 +221,7 @@
 				"label": "Focus Search Phrase",
 				"name": "eca_focus_keyword",
 				"type": "text",
-				"instructions": "This is the term of phrase that you want your article to rank for in Google. It should be a phrase that you expect visitors to search for. Google does not see this keyword directly, but ensuring that you have used a consistent focus keyword will help improve the search engine relevance for the phrase.",
+				"instructions": "This is the term or phrase that you want your article to rank for in Google. It should be a phrase that you expect visitors to search for. Google does not see this keyword directly, but ensuring that you have used a consistent focus keyword will help improve the search engine relevance for the phrase.",
 				"required": 0,
 				"conditional_logic": 0,
 				"wrapper": {
