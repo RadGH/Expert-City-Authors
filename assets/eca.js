@@ -273,8 +273,6 @@ function eca_seo_analysis_tool( $article_form, formData ) {
 
 	// Analysis Item -- Check for headings
 	(function() {
-		if ( !eca_seo.expert_category ) return;
-
 		var analysisItem = new analysis_item_object(); // inherit from our abstract
 
 		analysisItem.update = function() {
@@ -295,8 +293,6 @@ function eca_seo_analysis_tool( $article_form, formData ) {
 
 	// Analysis Item -- Check for long paragraphs
 	(function() {
-		if ( !eca_seo.expert_category ) return;
-
 		var analysisItem = new analysis_item_object(); // inherit from our abstract
 
 		analysisItem.update = function() {
@@ -338,8 +334,6 @@ function eca_seo_analysis_tool( $article_form, formData ) {
 
 	// Analysis Item -- Check length of article or seo title
 	(function() {
-		if ( !eca_seo.expert_category ) return;
-
 		var analysisItem = new analysis_item_object(); // inherit from our abstract
 
 		analysisItem.update = function() {
@@ -379,8 +373,6 @@ function eca_seo_analysis_tool( $article_form, formData ) {
 
 	// Analysis Item -- Check length of slug
 	(function() {
-		if ( !eca_seo.expert_category ) return;
-
 		var analysisItem = new analysis_item_object(); // inherit from our abstract
 
 		analysisItem.update = function() {
@@ -418,8 +410,6 @@ function eca_seo_analysis_tool( $article_form, formData ) {
 
 	// Analysis Item -- Links in the article
 	(function() {
-		if ( !eca_seo.expert_category ) return;
-
 		var analysisItem = new analysis_item_object(); // inherit from our abstract
 
 		analysisItem.update = function() {
@@ -445,8 +435,6 @@ function eca_seo_analysis_tool( $article_form, formData ) {
 
 	// Analysis Item -- Images with alt text
 	(function() {
-		if ( !eca_seo.expert_category ) return;
-
 		var analysisItem = new analysis_item_object(); // inherit from our abstract
 
 		analysisItem.update = function() {
