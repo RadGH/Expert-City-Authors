@@ -21,6 +21,9 @@ $photo_id = eca_author_field_photo( $eca_user, false );
 $photo_post = $photo_id ? get_post( $photo_id ) : false;
 $photo = $photo_post ? acf_get_attachment( $photo_post ) : false;
 
+$image = false;
+$alt = false;
+
 if ( $photo ) {
 	$image = empty($photo['sizes']['medium']) ? false : array( $photo['sizes']['medium'], $photo['sizes']['medium-width'], $photo['sizes']['medium-height']);
 	if ( !$image ) $image = empty($photo['sizes']['thumbnail']) ? false : array( $photo['sizes']['thumbnail'], $photo['sizes']['thumbnail-width'], $photo['sizes']['thumbnail-height']);
@@ -29,9 +32,13 @@ if ( $photo ) {
 	$alt = $photo['alt'];
 	if ( empty($photo['alt']) ) $alt = $photo['caption'];
 	if ( empty($photo['alt']) ) $alt = $photo['title'];
+}
+
+if ( $image ) {
+	$img_element = '<img src="'. esc_attr($image[0]) .'" alt="'. $alt .'" width="'. $image[1] .'" height="'. $image[2] .'" title="View '. esc_attr("$full_name") .'\'s Profile">';
 }else{
-	$image = array( ECA_URL.'/assets/person.png', 250, 250 );
-	$alt = "Placeholder image, silhouette of a man.";
+	// Fall back to default user's avatar
+	$img_element = get_avatar( $eca_user->ID, 250, ECA_URL.'/assets/person.png', 'An avatar of the user ' . $eca_user->display_name );
 }
 ?>
 <div class="eca-directory-item">
@@ -41,7 +48,7 @@ if ( $photo ) {
 			<div class="directory-column column-1">
 				<div class="photo-area">
 					<a href="<?php echo esc_attr($user_profile_url); ?>">
-						<img src="<?php echo esc_attr($image[0]); ?>" alt="<?php echo $alt; ?>" width="<?php echo $image[1]; ?>" height="<?php echo $image[2]; ?>" title="View <?php echo esc_attr("{$full_name}"); ?>'s Profile">
+						<?php echo $img_element; ?>
 					</a>
 				</div>
 			</div>
